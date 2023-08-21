@@ -1,3 +1,10 @@
+def frontendImage="pandaacademy/frontend"
+def backendImage="pandaacademy/backend"
+def backendDockerTag=""
+def frontendDockerTag=""
+def dockerRegistry=""
+def registryCredentials="Dockerhub"
+
 pipeline {
     agent {
         label 'agent'
@@ -15,6 +22,16 @@ pipeline {
             steps {
                 sh "docker rm -f frontend backend"
             }
-        }       
+        }
+        stage('Adjust version') {
+            steps {
+                script{
+                    backendDockerTag = params.backendDockerTag.isEmpty() ? "latest" : params.backendDockerTag
+                    frontendDockerTag = params.frontendDockerTag.isEmpty() ? "latest" : params.frontendDockerTag
+
+                    currentBuild.description = "Backend: ${backendDockerTag}, Frontend: ${frontendDockerTag}"
+                    }    
+                }
+}
     }
 }
