@@ -45,5 +45,11 @@ pipeline {
                 }
             }
         }
+        stage('Selenium tests') {
+            steps {
+                sh "pip3 install -r test/selenium/requirements.txt"
+                sh "python3 pytest test/selenium/frontend_test.py"
+            }
+        }
     }
 }
